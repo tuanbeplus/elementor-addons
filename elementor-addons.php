@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name: Elementor Addons
- * Description: Elementor addons plugin.
+ * Plugin Name: ICA Elementor Addons
+ * Description: Elementor Addons plugin.
  * Plugin URI:  https://elementor.com/
- * Version:     1.2.1
- * Author:      Bearsthemes
+ * Version:     2.1.0
+ * Author:      tom@ysnstudios.com
  * Author URI:  https://elementor.com/
  * Text Domain: elementor-addons
  */
@@ -230,18 +230,17 @@ final class Elementor_Addons {
 					if ($filter['name'] == 'ins-type' && $post_type == 'resources') {
 						?>
 						<div class="filter-selected">
-								<label for="">Selected filters by “Type”</label>
-								<div class="list-selected">
-									<?php foreach ($filter['value'] as $key => $val) {
-							$text = ucwords(str_replace('-', ' ', $val));
-							?><span class="item-filter"><?php echo $text; ?> <i class="fa fa-times" data-filter="<?php echo $val; ?>"></i></span><?php
-}?>
-								</div>
+							<label for="">Selected filters by “Type”</label>
+							<div class="list-selected">
+							<?php foreach ($filter['value'] as $key => $val) {
+								$text = ucwords(str_replace('-', ' ', $val));
+								?><span class="item-filter"><?php echo $text; ?> <i class="fa fa-times" data-filter="<?php echo $val; ?>"></i></span><?php
+							}?>
+							</div>
 						</div>
 						<?php
-break;
+					break;
 					}
-
 				}
 			}
 			$layout = 'grid';
@@ -291,8 +290,7 @@ break;
 					<?php endif;?>
 				</div>
 				<?php
-endif;
-
+			endif;
 		}
 
 		// The Loop
@@ -312,11 +310,11 @@ endif;
 					<i class="fa fa-frown-o" aria-hidden="true"></i>
 					<div><?php echo __("No results found!"); ?></div>
 				</div> <?php
-}
+		}
 
 		if ($pagination && $the_query->max_num_pages > $paged && $paged < 2) {
 			?><div class="content-filter-pagination"><button type="button" name="button-showmore" data-type_filter="<?php echo $type_filter; ?>">Show more</button></div><?php
-}
+		}
 
 		//Top content filter
 		if ($paged < 2) {
@@ -325,18 +323,17 @@ endif;
 					if ($filter['name'] == 'ins-topic' && $post_type == 'resources') {
 						?>
 						<div class="filter-selected">
-								<label for="">Selected filters by “Topic”</label>
-								<div class="list-selected">
-									<?php foreach ($filter['value'] as $key => $val) {
-							$text = ucwords(str_replace('-', ' ', $val));
-							?><span class="item-filter"><?php echo $text; ?> <i class="fa fa-times" data-filter="<?php echo $val; ?>"></i></span><?php
-}?>
-								</div>
+							<label for="">Selected filters by “Topic”</label>
+							<div class="list-selected">
+							<?php foreach ($filter['value'] as $key => $val) {
+								$text = ucwords(str_replace('-', ' ', $val));
+								?><span class="item-filter"><?php echo $text; ?> <i class="fa fa-times" data-filter="<?php echo $val; ?>"></i></span><?php
+							}?>
+							</div>
 						</div>
 						<?php
-break;
+						break;
 					}
-
 				}
 			}
 		}

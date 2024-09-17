@@ -151,7 +151,6 @@ class Plugin {
 		require_once( __DIR__ . '/widgets/be-popular-results.php' );
 		require_once( __DIR__ . '/widgets/be-top-faq.php' );
 		require_once( __DIR__ . '/widgets/be-card-carousel.php' );
-
 		require_once( __DIR__ . '/widgets/be-campaign-gallery-section.php' );
 		require_once( __DIR__ . '/widgets/be-campaign-videos-section.php' );
 		require_once( __DIR__ . '/widgets/be-campaign-documents-section.php' );
