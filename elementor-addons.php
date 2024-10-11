@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 }
 // Exit if accessed directly
 
-define('ELEMENT_ADDON_VER', rand());
+define('ELEMENT_ADDON_VER','2.1.0');
 define('ELEMENT_ADDON_PATH', plugin_dir_path(__FILE__));
 define('ELEMENT_ADDON_TEMPLATE', ELEMENT_ADDON_PATH . 'templates/');
 
