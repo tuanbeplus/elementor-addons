@@ -76,6 +76,63 @@ final class Elementor_Addons {
 		add_shortcode('ica_content_filter', array($this, 'ica_content_filter_render'));
 		add_action('wp_ajax_load_filter_data', array($this, 'load_filter_data_ajax'));
 		add_action('wp_ajax_nopriv_load_filter_data', array($this, 'load_filter_data_ajax'));
+
+		// Campaign Documents Section Ajax loadmore reports
+		add_action('wp_ajax_load_more_reports_campaign', array($this, 'ica_load_more_reports_campaign'));
+		add_action('wp_ajax_nopriv_load_more_reports_campaign', array($this, 'ica_load_more_reports_campaign'));
+	}
+
+	/**
+	 * Ajax Load More Reports in Campaign Documents
+	 */
+	public function ica_load_more_reports_campaign() {
+		$page = isset($_POST['page']) ? $_POST['page'] : 2;
+		$number_posts = isset($_POST['number_posts']) ? $_POST['number_posts'] : 3;
+		$order_by = isset($_POST['order_by']) ? $_POST['order_by'] : 'DESC';
+
+		$reports = get_posts( array(
+			'post_type' => 'resources',
+			'posts_per_page' => $number_posts,
+			'paged' => $page,
+			'post_status' => 'publish',
+			'order_by' => 'date',
+			'order' => $order_by,
+			'tax_query' => array(
+				array(
+					'taxonomy' => 'ins-type',
+					'field' => 'term_id',
+					'terms' => 18, // ICA reports term ID
+					'operator' => 'IN'
+				)
+			)
+		));
+
+		if (!empty($reports)) {
+			foreach ($reports as $report) { 
+				$file_type = get_field('select_type_resources', $report->ID);
+				$file_upload = get_field('upload_file', $report->ID);
+				?>
+				<div id="<?php echo $report->ID; ?>" class="bt-document bt-item">
+					<a href="<?php echo get_the_permalink($report->ID); ?>">
+						<div class="bt-document__image">
+							<?php echo get_the_post_thumbnail($report->ID, 'large'); ?>
+						</div>
+						<h3 class="bt-document__title">
+							<?php echo get_the_title($report->ID); ?>
+						</h3>
+					</a>
+					<?php if ($file_type == 'PDF' && !empty($file_upload['url'])): ?>
+						<a class="bt-document__pdf" href="<?php echo esc_url($file_upload['url']); ?>">
+							<?php echo __('Download PDF', 'bearsthemes-addons'); ?>
+						</a>
+					<?php endif; ?>
+				</div>
+			<?php
+			}
+		}
+		// Reset Post Data
+		wp_reset_postdata();
+		die;
 	}
 
 	//Search Content Filter

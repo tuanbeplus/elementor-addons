@@ -15,7 +15,7 @@ class Be_Counter extends Widget_Base {
 	}
 
 	public function get_title() {
-		return __( 'Data story', 'bearsthemes-addons' );
+		return __( 'Data Hub', 'bearsthemes-addons' );
 	}
 
 	public function get_icon() {
@@ -42,6 +42,21 @@ class Be_Counter extends Widget_Base {
 				'label' => __( 'Layout', 'bearsthemes-addons' ),
 			]
 		);
+
+		// Select the Data hub type
+		$this->add_control(
+            'select_data_hub_type',
+            [
+                'label' => __( 'Select Data Hub type' ),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'default_data_hub',
+                'options' => [
+					'default_data_hub' => __( 'Default Data Hub' ),
+                    'global_data_hub' => __( 'Global Data Hub' ),
+                ],
+            ]
+        );
+
 		$this->add_responsive_control(
 			'columns',
 			[
@@ -68,6 +83,9 @@ class Be_Counter extends Widget_Base {
 				'type' => Controls_Manager::TEXT,
 				'label_block' => true,
 				'default' => __( 'Lorem ipsum dolor hero data story', 'bearsthemes-addons' ),
+				'condition' => [
+                    'select_data_hub_type' => 'default_data_hub', // Show only if 'Default Data Hub' is selected
+                ],
 			]
 		);
 		$this->add_control(
@@ -77,6 +95,9 @@ class Be_Counter extends Widget_Base {
 				'type' => Controls_Manager::TEXT,
 				'label_block' => true,
 				'default' => __( 'Visit our data hub', 'bearsthemes-addons' ),
+				'condition' => [
+                    'select_data_hub_type' => 'default_data_hub', // Show only if 'Default Data Hub' is selected
+                ],
 			]
 		);
 		$this->add_control(
@@ -85,8 +106,12 @@ class Be_Counter extends Widget_Base {
 				'type' => Controls_Manager::TEXT,
 				'label_block' => true,
 				'default' => '#',
+				'condition' => [
+                    'select_data_hub_type' => 'default_data_hub', // Show only if 'Default Data Hub' is selected
+                ],
 			]
 		);
+
 		$repeater = new Repeater();
 
 		$repeater->add_control(
@@ -630,8 +655,10 @@ class Be_Counter extends Widget_Base {
 		//var_dump($settings['columns']);
 		if ( empty( $settings['list'] ) ) {
 			return;
-		} ?>
-		<div class="elementor-grid-<?php echo $settings['columns']; ?> bt-custom-counter">
+		} 
+		$data_hub_type = ($settings['select_data_hub_type'] == 'global_data_hub') ? 'global' : 'default';
+		?>
+		<div class="elementor-grid-<?php echo $settings['columns']; ?> bt-custom-counter <?php echo $data_hub_type ?>">
 		<h2 class=bt-heading><?php echo $settings['bt_heading']; ?></h2>
 
 		<div class="elementor-grid">
@@ -680,11 +707,16 @@ class Be_Counter extends Widget_Base {
 				<?php	} ?>
 			</div>
 		</div>
-
 		<?php
 		}
 		?>
-	</div><a class="bt-button" href="<?php echo $settings['bt_button_url']; ?>"><?php echo $settings['bt_button']; ?> <i class="fa fa-angle-right" aria-hidden="true"></i></a></div><?php
+		</div>
+			<?php if (!empty($settings['bt_button_url'])): ?>
+				<a class="bt-button" href="<?php echo $settings['bt_button_url']; ?>">
+					<?php echo $settings['bt_button']; ?> <i class="fa fa-angle-right" aria-hidden="true"></i>
+				</a>
+			<?php endif; ?>
+		</div><?php
 	}
 
 	protected function _content_template() {

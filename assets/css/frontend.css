@@ -93,7 +93,7 @@
 }
  .elementor-counter__number-wrap {
 	 display: inline-flex;
-	 font-size: 44px;
+	 font-size: 32px;
 	 font-weight: 700;
 	 line-height: 100%;
 	 color: #fff;
@@ -107,7 +107,7 @@
 	 margin-left: 4px;
 }
  .elementor-counter__title {
-	 font-size: 18px;
+	 font-size: 14px;
 	 font-weight: 400;
 	 margin: 0;
 	 color: #fff;
@@ -115,7 +115,8 @@
 	 font-family: "Inter", Sans-serif;
 }
 .elementor-counter h2.bt-title{
-	font-size: 17px;
+	margin-bottom: 14px;
+	font-size: 16px;
 	font-weight: bold;
 	font-stretch: normal;
 	font-style: normal;
@@ -138,10 +139,10 @@
 .bt-custom-counter{
 	text-align: center;
 	background-color: #2F2F39;
-  padding: 70px 50px;
+  	padding: 36px 50px;
 }
 .bt-custom-counter .bt-heading{
-	font-size: 34px;
+	font-size: 20px;
 	font-weight: bold;
 	font-stretch: normal;
 	font-style: normal;
@@ -153,11 +154,11 @@
 	font-family: "Inter", Sans-serif;
 }
 .bt-custom-counter .elementor-grid{
-	 padding: 50px 0;
+	 padding: 36px 0;
 	 grid-gap: 15px;
 }
 .bt-custom-counter a.bt-button{
-	font-size: 17px;
+	font-size: 14px;
 	font-weight: bold;
 	font-stretch: normal;
 	font-style: normal;
@@ -165,7 +166,8 @@
 	letter-spacing: -0.5px;
 	color: #ffffff;
 	font-family: "Inter", Sans-serif;
-	text-decoration:underline;
+	text-decoration: underline;
+	text-underline-offset: 2px;
 	transition: none;
 	position: relative;
 }
@@ -176,7 +178,7 @@
 	right: -20px;
 }
 .bt-custom-counter a.bt-button > i::before{
-	font-size: 26px;
+	font-size: 22px;
 }
 @keyframes fade-up {
 	0% {
@@ -1002,18 +1004,18 @@ article.be-latest-faqs .elementor-post__content {
 	align-items: center;
 	justify-content: center;
 	width: 46px;
-    height: 46px;
+    height: 45px;
 	font-size: 0;
 	line-height: 1;
     border-radius: 100px;
     background-color: #fff;
 	margin-top: 8px;
-    box-shadow: 0 7px 17px 0 rgba(0, 0, 0, 0.21);
+    box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.1);
 }
 .bt-campaign-videos-section .bt-loadmore__btn:after {
 	content: 'next';
 	font-family: swiper-icons;
-    font-size: 24px;
+    font-size: 23px;
 	color: #2a8164;
 	transform: rotate(90deg);
 }
@@ -1054,10 +1056,12 @@ article.be-latest-faqs .elementor-post__content {
 .bt-campaign-documents-section .bt-document__image {
 	line-height: 0;
 	margin-bottom: 28px;
+	height: 416px;
 }
 .bt-campaign-documents-section .bt-document__image img {
 	width: 100%;
-	height: auto;
+	height: 100%;
+	object-fit: cover;
 }
 .bt-campaign-documents-section .bt-document__title {
 	font-size: 14px;
@@ -1080,8 +1084,12 @@ article.be-latest-faqs .elementor-post__content {
 	color: #2f2f39;
 }
 .bt-campaign-documents-section .bt-loadmore {
+	position: relative;
 	text-align: center;
-	margin-top: 45px;
+	margin-top: 40px;
+}
+.bt-campaign-documents-section.loading .bt-loadmore {
+	visibility: hidden;
 }
 .bt-campaign-documents-section .bt-loadmore__text {
 	font-size: 16px;
@@ -1095,20 +1103,48 @@ article.be-latest-faqs .elementor-post__content {
 	align-items: center;
 	justify-content: center;
 	width: 46px;
-    height: 46px;
+    height: 45px;
 	font-size: 0;
 	line-height: 1;
     border-radius: 100px;
     background-color: #fff;
 	margin-top: 8px;
-    box-shadow: 0 7px 17px 0 rgba(0, 0, 0, 0.21);
+    box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.1);
+	padding: 0;
+    font-weight: normal;
+	transition: all 0s;
 }
 .bt-campaign-documents-section .bt-loadmore__btn:after {
 	content: 'next';
 	font-family: swiper-icons;
-    font-size: 24px;
+    font-size: 23px;
 	color: #2a8164;
 	transform: rotate(90deg);
+}
+.bt-campaign-documents-section .spinner-wrapper {
+	position: absolute;
+	left: 50%;
+	top: 54%;
+	transform: translate(-50%, -50%);
+}
+.bt-campaign-documents-section .spinner {
+	visibility: hidden;
+	margin: auto;
+	width: 34px;
+    height: 34px;
+    clear: both;
+    border: 4px #ccc solid;
+    border-top: 4px #2a8164 solid;
+    border-radius: 50%;
+    -webkit-animation: spCircRot .6s infinite linear;
+    animation: spCircRot .6s infinite linear;
+}
+.bt-campaign-documents-section.loading .spinner {
+	visibility: visible;
+}
+@keyframes spCircRot {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(359deg); }
 }
 @media(max-width: 1023.98px) {
 	.bt-campaign-documents-section .bt-document {
@@ -1119,4 +1155,17 @@ article.be-latest-faqs .elementor-post__content {
 	.bt-campaign-documents-section .bt-document {
 		width: 100%;
 	}
+	.bt-campaign-documents-section .bt-loadmore {
+		margin-top: 24px;
+	}
 }
+
+/* Global Data Hub */
+.bt-custom-counter .elementor-grid .elementor-counter {
+	display: flex;
+	flex-direction: column;
+}
+.bt-custom-counter.global .elementor-grid {
+	padding: 0;
+}
+

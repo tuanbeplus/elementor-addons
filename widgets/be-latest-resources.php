@@ -257,16 +257,16 @@ class Be_Latest_Resources extends Widget_Base {
 			]
 		);
 
-		$this->add_control(
-			'ids',
-			[
-				'label' => __( 'Ids', 'bearsthemes-addons' ),
-				'type' => Controls_Manager::SELECT2,
-				'options' => $this->get_supported_ids(),
-				'label_block' => true,
-				'multiple' => true,
-			]
-		);
+		// $this->add_control(
+		// 	'ids',
+		// 	[
+		// 		'label' => __( 'Ids', 'bearsthemes-addons' ),
+		// 		'type' => Controls_Manager::SELECT2,
+		// 		'options' => $this->get_supported_ids(),
+		// 		'label_block' => true,
+		// 		'multiple' => true,
+		// 	]
+		// );
 
 		$this->add_control(
 			'category',
@@ -289,16 +289,16 @@ class Be_Latest_Resources extends Widget_Base {
 			]
 		);
 
-		$this->add_control(
-			'ids_exclude',
-			[
-				'label' => __( 'Ids', 'bearsthemes-addons' ),
-				'type' => Controls_Manager::SELECT2,
-				'options' => $this->get_supported_ids(),
-				'label_block' => true,
-				'multiple' => true,
-			]
-		);
+		// $this->add_control(
+		// 	'ids_exclude',
+		// 	[
+		// 		'label' => __( 'Ids', 'bearsthemes-addons' ),
+		// 		'type' => Controls_Manager::SELECT2,
+		// 		'options' => $this->get_supported_ids(),
+		// 		'label_block' => true,
+		// 		'multiple' => true,
+		// 	]
+		// );
 
 		$this->add_control(
 			'category_exclude',
@@ -1720,13 +1720,13 @@ protected function register_design_pagination_section_controls() {
 			'ignore_sticky_posts' => ('yes' !== $settings['ignore_sticky_posts']) ? true : false,
 		];
 
-		if( ! empty( $settings['ids'] ) ) {
-			$args['post__in'] = $settings['ids'];
-		}
+		// if( ! empty( $settings['ids'] ) ) {
+		// 	$args['post__in'] = $settings['ids'];
+		// }
 
-		if( ! empty( $settings['ids_exclude'] ) ) {
-			$args['post__not_in'] = $settings['ids_exclude'];
-		}
+		// if( ! empty( $settings['ids_exclude'] ) ) {
+		// 	$args['post__not_in'] = $settings['ids_exclude'];
+		// }
 
 		if( ! empty( $settings['category'] ) ) {
 			$args['tax_query'] = array(

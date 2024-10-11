@@ -1091,7 +1091,7 @@ class Be_Card_Carousel extends Widget_Base {
 
 	public function get_instance_value_skin( $key ) {
 		$settings = $this->get_settings_for_display();
-		return $settings[$key];
+		return isset($settings[$key]) ? $settings[$key] : null;
 	}
 
 	protected function swiper_data() {

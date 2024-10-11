@@ -30,6 +30,7 @@ class Campaign_Documents_Section extends Widget_Base {
     }
 
     public function get_script_depends() {
+        wp_localize_script( 'elementor-addons', 'ajax_object', array('ajax_url' => admin_url('admin-ajax.php')));
 		return [ 'elementor-addons' ];
 	}
 
@@ -38,7 +39,75 @@ class Campaign_Documents_Section extends Widget_Base {
 	}
 
     protected function register_content_section_controls() {
-        
+        // Start Content section
+        $this->start_controls_section(
+            'content_section',
+            [
+                'label' => __( 'Content', 'your-plugin' ),
+                'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        // Add the post type select control
+        $this->add_control(
+            'documents_source',
+            [
+                'label' => __( 'Select Documents Source', 'bearsthemes-addons' ),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    'ica_reports' => __('ICA Reports (Resources)'),
+                    'acf_uploaded_documents' => __('ACF Uploaded Documents'),
+                ],
+                'default' => 'ica_reports',  // Default post type
+            ]
+        );
+
+        // Add Heading textarea control
+        $this->add_control(
+            'heading',
+            [
+                'label' => __( 'Section Heading', 'bearsthemes-addons' ),
+                'type' => Controls_Manager::TEXTAREA,
+                'default' => __( 'Related reports', 'bearsthemes-addons' ),
+                'placeholder' => __( 'Enter your heading', 'bearsthemes-addons' ),
+                'condition' => [
+                    'documents_source' => 'ica_reports',
+                ],
+            ]
+        );
+
+        // Add Number Reports control
+        $this->add_control(
+			'number_posts',
+			[
+				'label' => __( 'Number Reports', 'bearsthemes-addons' ),
+				'type' => Controls_Manager::NUMBER,
+				'default' => 3,
+                'condition' => [
+                    'documents_source' => 'ica_reports',
+                ],
+			]
+		);
+
+        // Add Order Reports control
+        $this->add_control(
+            'order_by',
+            [
+                'label' => __( 'Order By', 'bearsthemes-addons' ),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    'ASC' => __('Date Ascending'),
+                    'DESC' => __('Date Descending'),
+                ],
+                'default' => 'DESC',
+                'condition' => [
+                    'documents_source' => 'ica_reports',
+                ],
+            ]
+        );
+
+        // End Content section
+        $this->end_controls_section();
     }
 
 
@@ -48,6 +117,7 @@ class Campaign_Documents_Section extends Widget_Base {
 
 
     protected function register_style_content_section_controls() {
+
         $this->start_controls_section(
 			'section_design_content',
 			[
@@ -203,21 +273,100 @@ class Campaign_Documents_Section extends Widget_Base {
         $this->register_style_content_section_controls();
     }
 
+    /**
+	 * Get ICA Reports Campaign Documents
+	 */
+	function ica_get_reports_campaign_documents($number_posts, $page, $order_by) {
+
+		$reports = get_posts( array(
+			'post_type' => 'resources',
+			'posts_per_page' => $number_posts,
+			'paged' => $page,
+			'post_status' => 'publish',
+			'order_by' => 'date',
+			'order' => $order_by,
+			'tax_query' => array(
+				array(
+					'taxonomy' => 'ins-type',
+					'field' => 'term_id',
+					'terms' => 18, // ICA reports term ID
+					'operator' => 'IN'
+				)
+			)
+		));
+
+		wp_reset_postdata();
+
+		if (!empty($reports)) return $reports;
+	}
 
     protected function render() {
         $settings = $this->get_settings_for_display();
-        
+
+        $documents_source = $settings['documents_source'];
         $heading = get_field('ds_heading');
         $documents = get_field('ds_documents');
-        
         ?>
+        <?php if ($documents_source == 'ica_reports'): 
+            $section_heading = $settings['heading'];
+            $number_posts = $settings['number_posts'];
+            $order_by = $settings['order_by'];
+            $all_resources = $this->ica_get_reports_campaign_documents('-1', '1', $order_by);
+            $resources = $this->ica_get_reports_campaign_documents($number_posts, '1', $order_by);
+            ?>
+            <!-- ICA Rreports -->
+            <div class="bt-elements-elementor bt-campaign-documents-section ica-reports"
+                data-number-posts="<?php echo $number_posts; ?>"
+                data-total-posts="<?php echo count($all_resources); ?>"
+                data-order-by="<?php echo $order_by; ?>">
+                <?php 
+                if(!empty($section_heading)) {
+                    echo '<h2 class="bt-heading">' . $section_heading . '</h2>';
+                } ?>
+                <?php if (!empty($resources)): ?>
+                    <div class="bt-documents reports">
+                    <?php foreach ($resources as $resource): 
+                        $file_type = get_field('select_type_resources', $resource->ID);
+                        $file_upload = get_field('upload_file', $resource->ID);
+                        ?>
+                        <div id="<?php echo $resource->ID; ?>" class="bt-document bt-item">
+                            <a href="<?php echo get_the_permalink($resource->ID); ?>">
+                                <div class="bt-document__image">
+                                    <?php echo get_the_post_thumbnail($resource->ID, 'large'); ?>
+                                </div>
+                                <h3 class="bt-document__title">
+                                    <?php echo get_the_title($resource->ID); ?>
+                                </h3>
+                            </a>
+                            <?php if ($file_type == 'PDF' && !empty($file_upload['url'])): ?>
+                                <a class="bt-document__pdf" href="<?php echo esc_url($file_upload['url']); ?>">
+                                    <?php echo __('Download PDF', 'bearsthemes-addons'); ?>
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                    </div>
+                    <?php if (count($all_resources) > count($resources)): ?>
+                        <div class="bt-loadmore">
+                            <div class="spinner-wrapper">
+                                <div class="spinner"></div>
+                            </div>
+                            <div class="bt-loadmore__text">
+                                <?php echo count($resources) .' of '. count($all_resources) . '.  Show more'; ?>
+                            </div>
+                            <button class="bt-loadmore__btn btn-load-more-reports" data-next-page="2">Load more</button>   
+                        </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </div>
+            <!-- /ICA Rreports -->
+        <?php else: ?>
         <div class="bt-elements-elementor bt-campaign-documents-section">
             <?php 
                 if(!empty($heading)) {
                     echo '<h2 class="bt-heading">' . $heading . '</h2>';
                 }
             ?>
-            
             <?php if(!empty($documents)){ ?>
                 <div class="bt-documents <?php if(count($documents) < 3) echo 'bt-align-center'; ?>">
                     <?php foreach($documents as $key => $document) { ?>
@@ -275,6 +424,7 @@ class Campaign_Documents_Section extends Widget_Base {
 
             <?php } ?>
         </div>
+        <?php endif; ?>
         <?php
     }
 
