@@ -1762,9 +1762,9 @@ protected function register_design_pagination_section_controls() {
 		$slides_per_view_tablet = $this->get_settings_for_display('sliders_per_view_tablet') ? $this->get_settings_for_display('sliders_per_view_tablet') : $slides_per_view;
 		$slides_per_view_mobile = $this->get_settings_for_display('sliders_per_view_mobile') ? $this->get_settings_for_display('sliders_per_view_mobile') : $slides_per_view_tablet;
 
-		$space_between = $this->get_settings_for_display('space_between')['size'] ? $this->get_settings_for_display('space_between')['size'] : 30;
-		$space_between_tablet = $this->get_settings_for_display('space_between_tablet')['size'] ? $this->get_settings_for_display('space_between_tablet')['size'] : $space_between;
-		$space_between_mobile = $this->get_settings_for_display('space_between_mobile')['size'] ? $this->get_settings_for_display('space_between_mobile')['size'] : $space_between_tablet;
+		$space_between = isset($this->get_settings_for_display('space_between')['size']) ? $this->get_settings_for_display('space_between')['size'] : 30;
+		$space_between_tablet = isset($this->get_settings_for_display('space_between_tablet')['size']) ? $this->get_settings_for_display('space_between_tablet')['size'] : $space_between;
+		$space_between_mobile = isset($this->get_settings_for_display('space_between_mobile')['size']) ? $this->get_settings_for_display('space_between_mobile')['size'] : $space_between_tablet;
 
 
 		$swiper_data = array(
@@ -1931,12 +1931,13 @@ protected function register_design_pagination_section_controls() {
 		$term_list = get_the_terms( get_the_id(), 'ins-type' );
 		$currentcolor='';
 		$upload_file = get_field( 'upload_file' );
-		$link_resources = get_permalink() ;
+		$link_resources = get_permalink();
+		$thumbnail_size = isset($settings['thumbnail_size']) ? $settings['thumbnail_size'] : 'medium_large';
 		foreach($term_list as $term_single)
 		{
-				$termid= $term_single->term_id;
-				$colorvalue= get_field('color',  'ins-type_' . $termid);
-				if($colorvalue!='')  $currentcolor =$colorvalue;
+			$termid= $term_single->term_id;
+			$colorvalue= get_field('color',  'ins-type_' . $termid);
+			if($colorvalue!='')  $currentcolor =$colorvalue;
 		}
 		?>
 		<div class="swiper-slide">
@@ -1960,14 +1961,14 @@ protected function register_design_pagination_section_controls() {
 						if(!empty($upload_file) && trim($upload_file['subtype'])){ ?>
 							<h3 class="elementor-post__title">
 								<a href="<?php echo $upload_file['url']; ?>">
-									<?php the_post_thumbnail( $settings['thumbnail_size'] ); ?>
+									<?php the_post_thumbnail( $thumbnail_size ); ?>
 								</a>
 							</h3>
 					   <?php
 				   		}else{ ?>
 							<h3 class="elementor-post__title">
 								<a href="<?php echo $link_resources ?>">
-									<?php the_post_thumbnail( $settings['thumbnail_size'] ); ?>
+									<?php the_post_thumbnail( $thumbnail_size ); ?>
 								 </a>
 							</h3>
 						<?php

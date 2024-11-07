@@ -1101,10 +1101,9 @@ class Be_Card_Carousel extends Widget_Base {
 		$slides_per_view_tablet = $this->get_instance_value_skin('sliders_per_view_tablet') ? $this->get_instance_value_skin('sliders_per_view_tablet') : $slides_per_view;
 		$slides_per_view_mobile = $this->get_instance_value_skin('sliders_per_view_mobile') ? $this->get_instance_value_skin('sliders_per_view_mobile') : $slides_per_view_tablet;
 
-		$space_between = $this->get_instance_value_skin('space_between')['size'] ? $this->get_instance_value_skin('space_between')['size'] : 30;
-		$space_between_tablet = $this->get_instance_value_skin('space_between_tablet')['size'] ? $this->get_instance_value_skin('space_between_tablet')['size'] : $space_between;
-		$space_between_mobile = $this->get_instance_value_skin('space_between_mobile')['size'] ? $this->get_instance_value_skin('space_between_mobile')['size'] : $space_between_tablet;
-
+		$space_between = isset($this->get_instance_value_skin('space_between')['size']) ? $this->get_instance_value_skin('space_between')['size'] : 30;
+		$space_between_tablet = isset($this->get_instance_value_skin('space_between_tablet')['size']) ? $this->get_instance_value_skin('space_between_tablet')['size'] : $space_between;
+		$space_between_mobile = isset($this->get_instance_value_skin('space_between_mobile')['size']) ? $this->get_instance_value_skin('space_between_mobile')['size'] : $space_between_tablet;
 
 		$swiper_data = array(
 			'slidesPerView' => $slides_per_view_mobile,
