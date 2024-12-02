@@ -10,6 +10,7 @@ use Elementor\Group_Control_Css_Filter;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
+use \Elementor\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -35,8 +36,44 @@ class Be_Card_Carousel extends Widget_Base {
 		return [ 'elementor-addons' ];
 	}
 
-  public function get_style_depends() {
+  	public function get_style_depends() {
 		return [ 'elementor-addons' ];
+	}
+
+	public function get_breakpoints(){
+		$breakpoints_active = Plugin::$instance->breakpoints->get_active_breakpoints();
+		$breakpoints = array();
+		if( !empty( $breakpoints_active ) ){
+			$slide_show = 4;
+			foreach ($breakpoints_active as $key => $breakpoint ) {
+				$breakpoint_key = $key . '_default';
+				switch ($key) {
+					case 'widescreen':
+						$slide_show = 3;
+						break;
+					case 'laptop':
+						$slide_show = 3;
+						break;
+					case 'tablet_extra':
+						$slide_show = 3;
+						break;
+					case 'tablet':
+						$slide_show = 2;
+						break;
+					case 'mobile_extra':
+						$slide_show = 2;
+						break;
+					case 'mobile':
+						$slide_show = 1;
+						break;
+					default:
+						$slide_show = 3;
+						break;
+				}
+				$breakpoints[$breakpoint_key] = $slide_show;
+			}
+		}
+		return $breakpoints;
 	}
 
 	protected function register_layout_section_controls() {
@@ -49,31 +86,29 @@ class Be_Card_Carousel extends Widget_Base {
 
 		$repeater = new Repeater();
 
-    $repeater->add_control(
-      'background_card',
-      [
-        'label' => __( 'Background Color', 'bearsthemes-addons' ),
-        'type' => Controls_Manager::COLOR,
-        'default' => __( '' , 'bearsthemes-addons' ),
-      ]
-    );
+		$repeater->add_control(
+		'background_card',
+		[
+			'label' => __( 'Background Color', 'bearsthemes-addons' ),
+			'type' => Controls_Manager::COLOR,
+			'default' => __( '' , 'bearsthemes-addons' ),
+		]
+		);
 
-    $repeater->add_control(
+		$repeater->add_control(
 			'list_category', [
 				'label' => __( 'Category', 'bearsthemes-addons' ),
 				'type' => Controls_Manager::TEXT,
 				'default' => __( 'Category' , 'bearsthemes-addons' ),
 			]
 		);
-
-    $repeater->add_control(
-      'list_title', [
-        'label' => __( 'Title', 'bearsthemes-addons' ),
-        'type' => Controls_Manager::TEXT,
-        'default' => __( 'Title' , 'bearsthemes-addons' ),
-      ]
-    );
-
+		$repeater->add_control(
+			'list_title', [
+				'label' => __( 'Title', 'bearsthemes-addons' ),
+				'type' => Controls_Manager::TEXT,
+				'default' => __( 'Title' , 'bearsthemes-addons' ),
+			]
+		);
 		$repeater->add_control(
 			'list_content', [
 				'label' => __( 'Content', 'bearsthemes-addons' ),
@@ -81,37 +116,34 @@ class Be_Card_Carousel extends Widget_Base {
 				'default' => __( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.' , 'bearsthemes-addons' ),
 			]
 		);
-
-    $repeater->add_control(
-      'show_read_more',
-      [
-        'label' => __( 'Read More', 'bearsthemes-addons' ),
-        'type' => Controls_Manager::SWITCHER,
-        'label_on' => __( 'Show', 'bearsthemes-addons' ),
-        'label_off' => __( 'Hide', 'bearsthemes-addons' ),
-        'default' => 'yes',
-      ]
-    );
-
-    $repeater->add_control(
-      'read_more_text',
-      [
-        'label' => __( 'Read More Text', 'bearsthemes-addons' ),
-        'type' => Controls_Manager::TEXT,
-        'default' => __( 'Read More', 'bearsthemes-addons' ),
-        'condition' => [
-          'show_read_more!' => '',
-        ],
-      ]
-    );
-
-    $repeater->add_control(
-      'link_url', [
-        'label' => __( 'Link', 'bearsthemes-addons' ),
-        'type' => Controls_Manager::TEXT,
-        'default' => __( '#' , 'bearsthemes-addons' ),
-      ]
-    );
+		$repeater->add_control(
+		'show_read_more',
+		[
+			'label' => __( 'Read More', 'bearsthemes-addons' ),
+			'type' => Controls_Manager::SWITCHER,
+			'label_on' => __( 'Show', 'bearsthemes-addons' ),
+			'label_off' => __( 'Hide', 'bearsthemes-addons' ),
+			'default' => 'yes',
+		]
+		);
+		$repeater->add_control(
+		'read_more_text',
+		[
+			'label' => __( 'Read More Text', 'bearsthemes-addons' ),
+			'type' => Controls_Manager::TEXT,
+			'default' => __( 'Read More', 'bearsthemes-addons' ),
+			'condition' => [
+			'show_read_more!' => '',
+			],
+		]
+		);
+		$repeater->add_control(
+		'link_url', [
+			'label' => __( 'Link', 'bearsthemes-addons' ),
+			'type' => Controls_Manager::TEXT,
+			'default' => __( '#' , 'bearsthemes-addons' ),
+		]
+		);
 
 		$this->add_control(
 			'list',
@@ -141,6 +173,8 @@ class Be_Card_Carousel extends Widget_Base {
 			]
 		);
 
+		$breakpoints = $this->get_breakpoints();
+		
 		$this->add_responsive_control(
 			'sliders_per_view',
 			[
@@ -158,9 +192,8 @@ class Be_Card_Carousel extends Widget_Base {
 					'6' => '6',
 				],
 				'separator' => 'before',
-			]
+			] + $breakpoints,
 		);
-
 
 		$this->end_controls_section();
 	}
@@ -1075,18 +1108,45 @@ class Be_Card_Carousel extends Widget_Base {
 		$this->end_controls_section();
 	}
 
+	protected function swiper_breakpoints() {
+		$settings = $this->get_settings_for_display();
+		$devices_list = array_reverse( Plugin::$instance->breakpoints->get_active_devices_list() );
+		$breakpoints_active = Plugin::$instance->breakpoints->get_active_breakpoints();
+		$swiper_breakpoints = array();
+		if( !empty($devices_list) ){
+			$slide_show = $this->get_settings_for_display('sliders_per_view') ? $this->get_settings_for_display('sliders_per_view') : 3;
+			$space_between = !empty( $this->get_settings_for_display('space_between')['size'] ) ? $this->get_settings_for_display('space_between')['size'] : 30;
+			foreach ( $devices_list as $key => $device ) {
+				$desktop_point = Plugin::$instance->breakpoints->get_device_min_breakpoint($device);
+				if( $device == 'desktop' ){
+					$slide_show = $this->get_settings_for_display( 'sliders_per_view' );
+					$swiper_breakpoints[$desktop_point] = array(
+						'slidesPerView'=> $slide_show,
+						'spaceBetween' => $space_between,
+					);
+				} 
+				else {
+					$slide_show = $this->get_settings_for_display( 'sliders_per_view_'.$device ) ? $this->get_settings_for_display( 'sliders_per_view_'.$device ) : $slide_show;
+					$space_between = !empty( $this->get_settings_for_display( 'space_between_'.$device )['size']) ? $this->get_settings_for_display( 'space_between_'.$device )['size'] : $space_between;
+	
+					$swiper_breakpoints[$desktop_point] = array(
+						'slidesPerView'=> $slide_show,
+						'spaceBetween' => $space_between,
+					);
+				}
+			}
+		}
+		return $swiper_breakpoints;
+	}
 
 	protected function register_controls() {
-
 		$this->register_layout_section_controls();
 		$this->register_additional_section_controls();
-
 		$this->register_design_latyout_section_controls();
 		$this->register_design_box_section_controls();
 		$this->register_design_content_section_controls();
 		$this->register_design_navigation_section_controls();
 		$this->register_design_pagination_section_controls();
-
 	}
 
 	public function get_instance_value_skin( $key ) {
@@ -1097,30 +1157,16 @@ class Be_Card_Carousel extends Widget_Base {
 	protected function swiper_data() {
 		$settings = $this->get_settings_for_display();
 
-		$slides_per_view = $this->get_instance_value_skin('sliders_per_view') ? $this->get_instance_value_skin('sliders_per_view') : 1;
-		$slides_per_view_tablet = $this->get_instance_value_skin('sliders_per_view_tablet') ? $this->get_instance_value_skin('sliders_per_view_tablet') : $slides_per_view;
-		$slides_per_view_mobile = $this->get_instance_value_skin('sliders_per_view_mobile') ? $this->get_instance_value_skin('sliders_per_view_mobile') : $slides_per_view_tablet;
-
+		$slides_per_view = $this->get_instance_value_skin('sliders_per_view') ? $this->get_instance_value_skin('sliders_per_view') : 3;
 		$space_between = isset($this->get_instance_value_skin('space_between')['size']) ? $this->get_instance_value_skin('space_between')['size'] : 30;
-		$space_between_tablet = isset($this->get_instance_value_skin('space_between_tablet')['size']) ? $this->get_instance_value_skin('space_between_tablet')['size'] : $space_between;
-		$space_between_mobile = isset($this->get_instance_value_skin('space_between_mobile')['size']) ? $this->get_instance_value_skin('space_between_mobile')['size'] : $space_between_tablet;
+		$swiper_breakpoints = $this->swiper_breakpoints();
 
 		$swiper_data = array(
-			'slidesPerView' => $slides_per_view_mobile,
-			'spaceBetween' => $space_between_mobile,
+			'slidesPerView' => $slides_per_view,
+			'spaceBetween' => $space_between,
 			'speed' => $settings['speed'],
 			'loop' => $settings['loop'] == 'yes' ? true : false,
-			'breakpoints' => array(
-				768 => array(
-				  'slidesPerView' => $slides_per_view_tablet,
-				  'spaceBetween' => $space_between_tablet,
-				),
-				1024 => array(
-				  'slidesPerView' => $slides_per_view,
-				  'spaceBetween' => $space_between,
-				)
-			),
-
+			'breakpoints' => $swiper_breakpoints,
 		);
 
 		if( '' !== $settings['navigation'] ) {

@@ -8,6 +8,7 @@ use Elementor\Group_Control_Css_Filter;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
+use \Elementor\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -35,6 +36,42 @@ class Be_Posts extends Widget_Base {
 
 	public function get_style_depends() {
 		return [ 'elementor-addons' ];
+	}
+
+	public function get_breakpoints(){
+		$breakpoints_active = Plugin::$instance->breakpoints->get_active_breakpoints();
+		$breakpoints = array();
+		if( !empty( $breakpoints_active ) ){
+			$slide_show = 4;
+			foreach ($breakpoints_active as $key => $breakpoint ) {
+				$breakpoint_key = $key . '_default';
+				switch ($key) {
+					case 'widescreen':
+						$slide_show = 3;
+						break;
+					case 'laptop':
+						$slide_show = 3;
+						break;
+					case 'tablet_extra':
+						$slide_show = 3;
+						break;
+					case 'tablet':
+						$slide_show = 2;
+						break;
+					case 'mobile_extra':
+						$slide_show = 2;
+						break;
+					case 'mobile':
+						$slide_show = 1;
+						break;
+					default:
+						$slide_show = 3;
+						break;
+				}
+				$breakpoints[$breakpoint_key] = $slide_show;
+			}
+		}
+		return $breakpoints;
 	}
 
 	protected function get_supported_ids() {
@@ -80,6 +117,8 @@ class Be_Posts extends Widget_Base {
 			]
 		);
 
+		$breakpoints = $this->get_breakpoints();
+
 		$this->add_responsive_control(
 			'sliders_per_view',
 			[
@@ -96,7 +135,7 @@ class Be_Posts extends Widget_Base {
 					'5' => '5',
 					'6' => '6',
 				],
-			]
+			] + $breakpoints,
 		);
 
 		$this->add_control(
@@ -1708,34 +1747,50 @@ protected function register_design_pagination_section_controls() {
 		return $query = new \WP_Query( $args );
 	}
 
+	protected function swiper_breakpoints() {
+		$settings = $this->get_settings_for_display();
+		$devices_list = array_reverse( Plugin::$instance->breakpoints->get_active_devices_list() );
+		$breakpoints_active = Plugin::$instance->breakpoints->get_active_breakpoints();
+		$swiper_breakpoints = array();
+		if( !empty($devices_list) ){
+			$slide_show = $this->get_settings_for_display('sliders_per_view') ? $this->get_settings_for_display('sliders_per_view') : 1;
+			$space_between = !empty( $this->get_settings_for_display('space_between')['size'] ) ? $this->get_settings_for_display('space_between')['size'] : 30;
+			foreach ( $devices_list as $key => $device ) {
+				$desktop_point = Plugin::$instance->breakpoints->get_device_min_breakpoint($device);
+				if( $device == 'desktop' ){
+					$slide_show = $this->get_settings_for_display( 'sliders_per_view' );
+					$swiper_breakpoints[$desktop_point] = array(
+						'slidesPerView'=> $slide_show,
+						'spaceBetween' => $space_between,
+					);
+				} 
+				else {
+					$slide_show = $this->get_settings_for_display( 'sliders_per_view_'.$device ) ? $this->get_settings_for_display( 'sliders_per_view_'.$device ) : $slide_show;
+					$space_between = !empty( $this->get_settings_for_display( 'space_between_'.$device )['size']) ? $this->get_settings_for_display( 'space_between_'.$device )['size'] : $space_between;
+	
+					$swiper_breakpoints[$desktop_point] = array(
+						'slidesPerView'=> $slide_show,
+						'spaceBetween' => $space_between,
+					);
+				}
+			}
+		}
+		return $swiper_breakpoints;
+	}
+
 	protected function swiper_data() {
 		$settings = $this->get_settings_for_display();
 
 		$slides_per_view = $this->get_settings_for_display('sliders_per_view') ? $this->get_settings_for_display('sliders_per_view') : 1;
-		$slides_per_view_tablet = $this->get_settings_for_display('sliders_per_view_tablet') ? $this->get_settings_for_display('sliders_per_view_tablet') : $slides_per_view;
-		$slides_per_view_mobile = $this->get_settings_for_display('sliders_per_view_mobile') ? $this->get_settings_for_display('sliders_per_view_mobile') : $slides_per_view_tablet;
-
 		$space_between = $this->get_settings_for_display('space_between')['size'] ? $this->get_settings_for_display('space_between')['size'] : 30;
-		$space_between_tablet = $this->get_settings_for_display('space_between_tablet')['size'] ? $this->get_settings_for_display('space_between_tablet')['size'] : $space_between;
-		$space_between_mobile = $this->get_settings_for_display('space_between_mobile')['size'] ? $this->get_settings_for_display('space_between_mobile')['size'] : $space_between_tablet;
-
+		$swiper_breakpoints = $this->swiper_breakpoints();
 
 		$swiper_data = array(
 			'slidesPerView' => $slides_per_view_mobile,
 			'spaceBetween' => $space_between_mobile,
 			'speed' => $settings['speed'],
 			'loop' => $settings['loop'] == 'yes' ? true : false,
-			'breakpoints' => array(
-				767 => array(
-				  'slidesPerView' => $slides_per_view_tablet,
-				  'spaceBetween' => $space_between_tablet,
-				),
-				1024 => array(
-				  'slidesPerView' => $slides_per_view,
-				  'spaceBetween' => $space_between,
-				)
-			),
-
+			'breakpoints' => $swiper_breakpoints,
 		);
 
 		if( '' !== $settings['navigation'] ) {

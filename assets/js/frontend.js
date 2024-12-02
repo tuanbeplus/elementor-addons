@@ -46,10 +46,9 @@
 
 	var SwiperSliderHandler = function( $scope, $ ) {
 		//console.log($scope);
-		var $selector = $scope.find('.swiper-container'),
-				$dataSwiper  = $selector.data('swiper'),
-				mySwiper = new Swiper($selector, $dataSwiper);
-
+		let $selector = $scope.find('.swiper-container');
+		let	$dataSwiper  = $selector.data('swiper');
+		const mySwiper = new Swiper($selector, $dataSwiper);
 	};
 
 	var SwiperSliderWithThumbHandler = function( $scope, $ ) {

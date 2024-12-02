@@ -1243,6 +1243,7 @@ body .ica-content-filter .content-filter-results2 .list-grids.template-resources
 body .elementor-widget-be-latest-resources .swiper-wrapper {
   display: grid !important;
   grid-template-columns: repeat(3, 1fr);
+  padding-bottom: 10px;
 }
 body .elementor-widget-be-latest-resources article.be-latest-resources {
   height: 100%;
