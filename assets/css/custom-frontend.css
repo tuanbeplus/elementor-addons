@@ -789,6 +789,7 @@
     flex-wrap: wrap;
     margin-left: -15px;
     margin-right: -15px;
+    justify-content: center;
 }
 .secondary-ctas-elements .list-items .item{
     width: 25%;

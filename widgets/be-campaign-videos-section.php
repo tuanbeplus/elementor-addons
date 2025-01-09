@@ -279,7 +279,9 @@ class Campaign_Videos_Section extends Widget_Base {
                         <div class="bt-loadmore__text">
                             <?php echo '3 of ' . count($videos) . '.  Show more'; ?>
                         </div>
-                        <a href="#" class="bt-loadmore__btn">Load more</a>   
+                        <a href="#" class="bt-loadmore__btn">
+                            <?php echo file_get_contents(ELEMENT_ADDON_IMG_DIR . 'green-chevron-in-circle.svg'); ?>
+                        </a>   
                     </div>
                 <?php } ?>  
 

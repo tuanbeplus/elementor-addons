@@ -339,8 +339,8 @@ class Campaign_Documents_Section extends Widget_Base {
                                 </h3>
                             </a>
                             <?php if ($file_type == 'PDF' && !empty($file_upload['url'])): ?>
-                                <a class="bt-document__pdf" href="<?php echo esc_url($file_upload['url']); ?>">
-                                    <?php echo __('Download PDF', 'bearsthemes-addons'); ?>
+                                <a class="bt-document__pdf" href="<?php echo esc_url($file_upload['url']); ?>" download>
+                                    <?php echo __('Download PDF', 'elementor-addons'); ?>
                                 </a>
                             <?php endif; ?>
                         </div>
@@ -354,7 +354,9 @@ class Campaign_Documents_Section extends Widget_Base {
                             <div class="bt-loadmore__text">
                                 <?php echo count($resources) .' of '. count($all_resources) . '.  Show more'; ?>
                             </div>
-                            <button class="bt-loadmore__btn btn-load-more-reports" data-next-page="2">Load more</button>   
+                            <button class="bt-loadmore__btn btn-load-more-reports" data-next-page="2">
+                                <?php echo file_get_contents(ELEMENT_ADDON_IMG_DIR . 'green-chevron-in-circle.svg'); ?>
+                            </button>   
                         </div>
                     <?php endif; ?>
                 <?php endif; ?>
@@ -373,21 +375,26 @@ class Campaign_Documents_Section extends Widget_Base {
                         <div class="bt-document bt-item" style="<?php if($key > 2) echo 'display: none;'; ?>">
                             <div class="bt-document__image">
                                 <?php 
-                                if(!empty($document['download_link'])) {
+                                $thumb_default_url = ELEMENT_ADDON_IMG_DIR . 'card-thumbnail-default.png';
+                                if (!empty($document['download_link'])) {
+                                    $attachment_id = $document['download_link']['id'] ?? null;
+                                    $att_thumb_url = wp_get_attachment_image_url($attachment_id, 'medium_large');
+                                    $att_thumb_url = !empty($att_thumb_url) ? $att_thumb_url : $thumb_default_url;
                                     if(!empty($document['image']['url'])) {
                                         echo '<a class="bt-document__pdf" href="' . $document['download_link']['url'] . '">
                                                 <img src="' . $document['image']['url'] . '" alt="' . $document['image']['title'] . '" />
                                             </a>'; 
                                     } else {
                                         echo '<a class="bt-document__pdf" href="' . $document['download_link']['url'] . '">
-                                                <img src="' . plugins_url( '/images/document.png', __FILE__ ) . '" alt="" />
+                                                <img src="' . esc_attr($att_thumb_url) . '" alt="" />
                                             </a>';
                                     }
-                                }else {
-                                    if(!empty($document['image']['url'])) {
+                                }
+                                else {
+                                    if (!empty($document['image']['url'])) {
                                         echo '<img src="' . $document['image']['url'] . '" alt="' . $document['image']['title'] . '" />'; 
                                     } else {
-                                        echo '<img src="' . plugins_url( '/images/document.png', __FILE__ ) . '" alt="" />'; 
+                                        echo '<img src="' . esc_attr($att_thumb_url) . '" alt="" />'; 
                                     }
                                 }
                                 ?>
@@ -405,8 +412,8 @@ class Campaign_Documents_Section extends Widget_Base {
                             <?php } ?>
 
                             <?php if(!empty($document['download_link'])) { ?>
-                                <a class="bt-document__pdf" href="<?php echo $document['download_link']['url']; ?>">
-                                    <?php echo __('Download PDF', 'bearsthemes-addons'); ?>
+                                <a class="bt-document__pdf" href="<?php echo $document['download_link']['url']; ?>" download>
+                                    <?php echo __('Download PDF', 'elementor-addons'); ?>
                                 </a>
                             <?php } ?>
                         </div>
@@ -418,7 +425,9 @@ class Campaign_Documents_Section extends Widget_Base {
                         <div class="bt-loadmore__text">
                             <?php echo '3 of ' . count($documents) . '.  Show more'; ?>
                         </div>
-                        <a href="#" class="bt-loadmore__btn">Load more</a>   
+                        <a href="#" class="bt-loadmore__btn">
+                            <?php echo file_get_contents(ELEMENT_ADDON_IMG_DIR . 'green-chevron-in-circle.svg'); ?>
+                        </a>   
                     </div>
                 <?php } ?>  
 

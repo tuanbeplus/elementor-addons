@@ -3,7 +3,7 @@
  * Plugin Name: ICA Elementor Addons
  * Description: Elementor Addons plugin.
  * Plugin URI:  https://elementor.com/
- * Version:     2.1.1
+ * Version:     2.1.2
  * Author:      tom@ysnstudios.com
  * Author URI:  https://elementor.com/
  * Text Domain: elementor-addons
@@ -14,9 +14,10 @@ if (!defined('ABSPATH')) {
 }
 // Exit if accessed directly
 
-define('ELEMENT_ADDON_VER', '2.1.1');
+define('ELEMENT_ADDON_VER', rand());
 define('ELEMENT_ADDON_PATH', plugin_dir_path(__FILE__));
 define('ELEMENT_ADDON_TEMPLATE', ELEMENT_ADDON_PATH . 'templates/');
+define('ELEMENT_ADDON_IMG_DIR', plugins_url('assets/images/', __FILE__));
 
 /**
  * Main Elementor Hello World Class

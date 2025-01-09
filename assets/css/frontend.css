@@ -1003,21 +1003,17 @@ article.be-latest-faqs .elementor-post__content {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 46px;
-    height: 45px;
-	font-size: 0;
 	line-height: 1;
     border-radius: 100px;
     background-color: #fff;
 	margin-top: 8px;
     box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.1);
 }
-.bt-campaign-videos-section .bt-loadmore__btn:after {
-	content: 'next';
-	font-family: swiper-icons;
-    font-size: 23px;
-	color: #2a8164;
-	transform: rotate(90deg);
+.bt-campaign-videos-section .bt-loadmore__btn svg {
+	width: 46px;
+	height: 45px;
+	border-radius: 100%;
+    transform: rotate(90deg);
 }
 @media(max-width: 1023.98px) {
 	.bt-campaign-videos-section .bt-video {
@@ -1102,9 +1098,6 @@ article.be-latest-faqs .elementor-post__content {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 46px;
-    height: 45px;
-	font-size: 0;
 	line-height: 1;
     border-radius: 100px;
     background-color: #fff;
@@ -1114,12 +1107,11 @@ article.be-latest-faqs .elementor-post__content {
     font-weight: normal;
 	transition: all 0s;
 }
-.bt-campaign-documents-section .bt-loadmore__btn:after {
-	content: 'next';
-	font-family: swiper-icons;
-    font-size: 23px;
-	color: #2a8164;
-	transform: rotate(90deg);
+.bt-campaign-documents-section .bt-loadmore__btn svg {
+	width: 46px;
+	height: 45px;
+	border-radius: 100%;
+    transform: rotate(90deg);
 }
 .bt-campaign-documents-section .spinner-wrapper {
 	position: absolute;
