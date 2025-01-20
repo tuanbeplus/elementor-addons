@@ -46,7 +46,6 @@ $link_resources = get_permalink() ;
       } ?>
       <div class="__content">
         <?php echo $__content; ?>
-        <p>hello</p>
       </div>
       <?php if(!empty($upload_file) && trim($upload_file['subtype'])){
         ?><a href="<?php echo $upload_file['url']; ?>" class="btn-readmore">Download <?php echo strtoupper($upload_file['subtype']); ?></a><?php
