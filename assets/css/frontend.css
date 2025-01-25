@@ -1144,8 +1144,15 @@ article.be-latest-faqs .elementor-post__content {
 	}
 }
 @media(max-width: 767.98px) {
+	.bt-campaign-documents-section .bt-heading {
+		margin-bottom: 30px;
+	}
 	.bt-campaign-documents-section .bt-document {
 		width: 100%;
+	}
+	.bt-campaign-documents-section .bt-document__image {
+		margin-bottom: 16px;
+		height: auto;
 	}
 	.bt-campaign-documents-section .bt-loadmore {
 		margin-top: 24px;
