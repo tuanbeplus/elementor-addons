@@ -83,7 +83,7 @@ class Campaign_Gallery_Section extends Widget_Base {
         ?>
         <div class="bt-elements-elementor bt-campaign-gallery-section">
             <div class="bt-images-slider">
-                <div class="swiper-container btSwiper2">
+                <div class="swiper-container btSwiper2 swiper">
                     <div class="swiper-wrapper">
                         <?php foreach($settings['gallery'] as $image) { ?>
                             <div class="swiper-slide">
@@ -115,7 +115,7 @@ class Campaign_Gallery_Section extends Widget_Base {
                     </div>
                 </div>
                 
-                <div class="swiper-container btSwiper">
+                <div class="swiper-container btSwiper swiper">
                     <div class="swiper-wrapper">
                         <?php foreach($settings['gallery'] as $image) { ?>
                             <div class="swiper-slide">

@@ -1196,7 +1196,7 @@ class Be_Card_Carousel extends Widget_Base {
 	public function render_loop_header() {
 		$settings = $this->get_settings_for_display();
 
-		$classes = 'elementor-swiper swiper-container';
+		$classes = 'elementor-swiper swiper-container swiper';
 
 
 		?>

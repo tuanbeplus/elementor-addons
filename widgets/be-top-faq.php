@@ -1880,7 +1880,7 @@ protected function register_design_pagination_section_controls() {
 	public function render_loop_header() {
 		$settings = $this->get_settings_for_display();
 
-		$classes = 'elementor-swiper swiper-container';
+		$classes = 'elementor-swiper swiper-container swiper';
 
 		$classes .= ' elementor-posts--default';
 
