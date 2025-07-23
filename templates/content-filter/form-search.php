@@ -9,7 +9,6 @@ $suggestionTop = array();
 foreach ($suggestionsArr as $key => $val) {
   if($val == '') continue;
   $suggestionTop[] = $val;
-  if($key > 1) break;
 }
 $filters = !empty($filters) ? explode(',',$filters) : '';
 $types = !empty($types) ? explode(',',$types) : '';
@@ -144,23 +143,9 @@ if(isset($_GET['end_date']) && $_GET['end_date'] != ''){
                         <div class="__select-options">
                           <div class="select-date-start">
                             <input placeholder="Select start date" value="<?php echo $start_date; ?>" autocomplete="off" type="text" name="date-range-start" class="datepicker date-range-start" id="date-range-start">
-                            <!-- <select name="date-range-start">
-                              <option value=""><?php echo __('Select start year','bearsthemes-addons') ?></option>
-                              <?php for ($i=2010; $i <= $years; $i++) {
-                                $selected = ($i == $start_date) ? 'selected="selected"' : '';
-                                ?><option value="<?php echo $i ?>" <?php echo $selected; ?>><?php echo $i ?></option><?php
-                              } ?>
-                            </select> -->
                           </div>
                           <div class="select-date-end">
                             <input placeholder="Select end date" value="<?php echo $end_date; ?>" type="text" autocomplete="off" name="date-range-end" class="datepicker date-range-end" id="date-range-end">
-                            <!-- <select name="date-range-end">
-                              <option value=""><?php echo __('Select end year','bearsthemes-addons') ?></option>
-                              <?php for ($i=2010; $i <= $years; $i++) {
-                                $selected = ($i == $end_date) ? 'selected="selected"' : '';
-                                ?><option value="<?php echo $i ?>" <?php echo $selected; ?>><?php echo $i ?></option><?php
-                              } ?>
-                            </select> -->
                           </div>
                         </div>
                       </div>

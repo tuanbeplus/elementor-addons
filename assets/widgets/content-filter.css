@@ -352,8 +352,8 @@
       .elementor-widget-ica-content-filter .ica-content-filter .template-filter-form .__filter-options .bt-actions .btn-clearall:active, .elementor-widget-ica-content-filter .ica-content-filter .template-filter-form .__filter-options .bt-actions .btn-clearall:focus {
         outline: none; }
       .elementor-widget-ica-content-filter .ica-content-filter .template-filter-form .__filter-options .bt-actions .btn-clearall .fa {
-        width: 11px;
-        height: 11px;
+        width: 16px;
+        height: 16px;
         border-radius: 50%;
         border: 1px solid #4a4a4a;
         margin-right: 9px;
@@ -361,7 +361,7 @@
         align-items: center;
         justify-content: center; }
         .elementor-widget-ica-content-filter .ica-content-filter .template-filter-form .__filter-options .bt-actions .btn-clearall .fa:before {
-          font-size: 7px; }
+          font-size: 10px; }
     .elementor-widget-ica-content-filter .ica-content-filter .template-filter-form .__filter-options .bt-actions .btn-applyfilter {
       border: solid 1px #2f2f39;
       background: transparent;
@@ -405,15 +405,6 @@
         flex-basis: 100%;
         width: 0;
         order: 2; }
-      .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results .list-grids.grid-layout .item-content-filter, .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results2 .list-grids.grid-layout .item-content-filter {
-        margin-right: 21px; }
-        .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results .list-grids.grid-layout .item-content-filter:nth-child(3n+1), .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results2 .list-grids.grid-layout .item-content-filter:nth-child(3n+1) {
-          order: 1; }
-        .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results .list-grids.grid-layout .item-content-filter:nth-child(3n+2), .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results2 .list-grids.grid-layout .item-content-filter:nth-child(3n+2) {
-          order: 2; }
-        .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results .list-grids.grid-layout .item-content-filter:nth-child(3n), .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results2 .list-grids.grid-layout .item-content-filter:nth-child(3n) {
-          order: 3;
-          margin-right: 0; }
     .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results .list-grids.list-layout, .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results2 .list-grids.list-layout {
       height: auto !important; }
       .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results .list-grids.list-layout .item-content-filter, .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results2 .list-grids.list-layout .item-content-filter {
@@ -1086,14 +1077,14 @@
       .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results .filter-selected .list-selected .item-filter .fa, .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results2 .filter-selected .list-selected .item-filter .fa {
         cursor: pointer; }
         .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results .filter-selected .list-selected .item-filter .fa::before, .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results2 .filter-selected .list-selected .item-filter .fa::before {
-          width: 17px;
-          height: 17px;
+          width: 18px;
+          height: 18px;
           border-radius: 50%;
           border: 1px solid #fff;
           display: flex;
           justify-content: center;
           align-items: center;
-          font-size: 10px;
+          font-size: 11px;
           margin-left: 15px; }
 
 .elementor-widget-ica-content-filter .ica-content-filter .content-filter-results2 .sort-by-content .btn-sortby {

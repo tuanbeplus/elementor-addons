@@ -207,7 +207,6 @@ final class Elementor_Addons {
 			'orderby' => $orderby,
 			'order' => $order,
 			'paged' => $paged,
-			//'s' 						 => $key
 		);
 
 		//Page
@@ -272,9 +271,6 @@ final class Elementor_Addons {
 		}
 
 		ob_start();
-		// echo "<pre>";
-		// echo print_r($args);
-		// echo "</pre>";
 		add_filter('posts_where', array($this, 'ica_title_filter'), 10, 2);
 		$the_query = new WP_Query($args);
 		$_GLOBAL['wp_query'] = $the_query;
