@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 }
 // Exit if accessed directly
 
-define('ELEMENT_ADDON_VER', '2.1.5');
+define('ELEMENT_ADDON_VER', '2.1.6'.time() );
 define('ELEMENT_ADDON_PATH', plugin_dir_path(__FILE__));
 define('ELEMENT_ADDON_TEMPLATE', ELEMENT_ADDON_PATH . 'templates/');
 define('ELEMENT_ADDON_IMG_DIR', plugins_url('assets/images/', __FILE__));
@@ -184,21 +184,21 @@ final class Elementor_Addons {
 	public function load_filter_data_ajax() {
 		$result = array();
 		global $is_dialog;
-		$key = stripslashes($_POST['key']);
-		$filters = $_POST['filters'];
-		$paged = $_POST['paged'];
-		$pagination = $_POST['pagination'];
-		$option = $_POST['option'];
-		$sortby = $_POST['sortby'];
-		$cats_faq = $_POST['cats_faq'];
-		$ex_cats_faq = $_POST['ex_cats_faq'];
-		$type_filter = $_POST['type_filter'];
-		$numberposts = $_POST['numberposts'];
-		$orderby = $_POST['orderby'];
-		$order = $_POST['order'];
-		$post_type = $_POST['post_type'];
-		$template = $_POST['template'];
-		$select_team = $_POST['select_team'];
+		$key = isset($_POST['key']) ? stripslashes(sanitize_text_field($_POST['key'])) : '';
+		$filters = isset($_POST['filters']) ? $_POST['filters'] : array();
+		$paged = isset($_POST['paged']) ? intval($_POST['paged']) : 1;
+		$pagination = isset($_POST['pagination']) ? filter_var($_POST['pagination'], FILTER_VALIDATE_BOOLEAN) : false;
+		$option = isset($_POST['option']) ? sanitize_text_field($_POST['option']) : '';
+		$sortby = isset($_POST['sortby']) ? sanitize_text_field($_POST['sortby']) : '';
+		$cats_faq = isset($_POST['cats_faq']) ? sanitize_text_field($_POST['cats_faq']) : '';
+		$ex_cats_faq = isset($_POST['ex_cats_faq']) ? sanitize_text_field($_POST['ex_cats_faq']) : '';
+		$type_filter = isset($_POST['type_filter']) ? sanitize_text_field($_POST['type_filter']) : '';
+		$numberposts = isset($_POST['numberposts']) ? intval($_POST['numberposts']) : 6;
+		$orderby = isset($_POST['orderby']) ? sanitize_text_field($_POST['orderby']) : 'post_date';
+		$order = isset($_POST['order']) ? sanitize_text_field($_POST['order']) : 'DESC';
+		$post_type = isset($_POST['post_type']) ? sanitize_text_field($_POST['post_type']) : '';
+		$template = isset($_POST['template']) ? sanitize_text_field($_POST['template']) : '';
+		$select_team = isset($_POST['select_team']) ? sanitize_text_field($_POST['select_team']) : '';
 
 		$args = array(
 			'post_type' => $post_type,

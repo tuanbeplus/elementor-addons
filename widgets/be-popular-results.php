@@ -290,14 +290,13 @@ class Be_Popular_Results extends Widget_Base {
 
     }
 
-
     protected function render() {
         $settings = $this->get_settings_for_display();
         $heading  = $settings['heading_resources'];
         $ids = $settings['post_ids_resources'];
-        $column_des = $settings['colum_pdf_resources'];
-        $column_tab = $settings['colum_pdf_resources_tablet'];
-        $column_mobi = $settings['colum_pdf_resources_mobile'];
+        $column_des = $settings['colum_pdf_resources'] ?? '4';
+        $column_tab = $settings['colum_pdf_resources_tablet'] ?? '3';
+        $column_mobi = $settings['colum_pdf_resources_mobile'] ?? '2';
         $class_des = '';
         $class_tab = '';
         $class_mobi = '';
@@ -353,11 +352,6 @@ class Be_Popular_Results extends Widget_Base {
                 $class_tab = 'columns-tab-1';
                 break;
         }
-        // $content  = $settings['content_alert_banner'];
-
-        // echo "<pre>";
-        // echo print_r($settings);
-        // echo "</pre>";
         ?>
 
         <div class="bt-elements-elementor popular-results-elements">
@@ -374,7 +368,6 @@ class Be_Popular_Results extends Widget_Base {
         </div>
         <?php
     }
-
 
     protected function get_resources_template($id, $class_des, $class_tab,  $class_mobi){
 

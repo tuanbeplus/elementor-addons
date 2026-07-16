@@ -303,14 +303,13 @@ class Resources_Widgets extends Widget_Base {
 
     }
 
-
     protected function render() {
         $settings = $this->get_settings_for_display();
         $heading  = $settings['heading_resources'];
         $ids = $settings['post_ids_resources'];
-        $column_des = $settings['colum_pdf_resources'];
-        $column_tab = $settings['colum_pdf_resources_tablet'];
-        $column_mobi = $settings['colum_pdf_resources_mobile'];
+        $column_des = $settings['colum_pdf_resources'] ?? '4';
+        $column_tab = $settings['colum_pdf_resources_tablet'] ?? '3';
+        $column_mobi = $settings['colum_pdf_resources_mobile'] ?? '2';
         $class_des = '';
         $class_tab = '';
         $class_mobi = '';
@@ -366,11 +365,6 @@ class Resources_Widgets extends Widget_Base {
                 $class_tab = 'columns-tab-1';
                 break;
         }
-        // $content  = $settings['content_alert_banner'];
-
-        // echo "<pre>";
-        // echo print_r($settings);
-        // echo "</pre>";
         ?>
 
         <div class="bt-elements-elementor resources-elements">
@@ -387,7 +381,6 @@ class Resources_Widgets extends Widget_Base {
         </div>
         <?php
     }
-
 
     protected function get_resources_template($id, $class_des, $class_tab,  $class_mobi){
 
@@ -407,9 +400,6 @@ class Resources_Widgets extends Widget_Base {
         //var_dump($loop);
             $pdf= get_field('upload_file');
             $id_pdf = $pdf['ID'];
-            // echo "<pre>";
-            // echo print_r($pdf);
-            // echo "</pre>";
             $name_pdf = $pdf['title'];
             $filesize = filesize( get_attached_file( $id_pdf ) );
             $filesize = size_format($filesize, 2);

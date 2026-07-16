@@ -1180,6 +1180,7 @@ body .ica-content-filter .content-filter-results2 .list-grids.template-resources
 body .ica-content-filter .content-filter-results .list-grids.template-resources .item-content-filter .__info, 
 body .ica-content-filter .content-filter-results2 .list-grids.template-resources .item-content-filter .__info {
   padding-bottom: 50px!important;
+  position: relative;
 }
 body .ica-content-filter .content-filter-results .list-grids.template-resources .item-content-filter .__title,
 body .ica-content-filter .content-filter-results2 .list-grids.template-resources .item-content-filter .__title {

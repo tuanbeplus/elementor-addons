@@ -304,22 +304,19 @@ class Repeater_resources_widget extends Widget_Base {
         $this->end_controls_section();
     }
 
-
-
     protected function register_controls() {
         $this->register_sidebar_pdf_section_controls();
         $this->register_style_title_section_controls();
         $this->register_style_content_section_controls();
     }
 
-
     protected function render() {
         $settings = $this->get_settings_for_display();
         $items_pdf = $settings['items_sidebar_pdf'];
         $heading_top = $settings['heading_resources_repeater'];
-        $column_des = $settings['colum_pdf_resources'];
-        $column_tab = $settings['colum_pdf_resources_tablet'];
-        $column_mobi = $settings['colum_pdf_resources_mobile'];
+        $column_des = $settings['colum_pdf_resources'] ?? '4';
+        $column_tab = $settings['colum_pdf_resources_tablet'] ?? '3';
+        $column_mobi = $settings['colum_pdf_resources_mobile'] ?? '2';
         $link_pdf_all = [];
         $name_pdf_custom = [];
         $pdf_file_size = [];
@@ -377,7 +374,6 @@ class Repeater_resources_widget extends Widget_Base {
                 $class_tab = 'columns-tab-1';
                 break;
         }
-
 
         foreach ($items_pdf as $key => $value) {
             $post_ids_resources = isset($value['post_ids_resources']) ? $value['post_ids_resources'] : '';

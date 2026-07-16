@@ -1834,7 +1834,7 @@ protected function register_design_pagination_section_controls() {
 
 		$swiper_data = array(
 			'slidesPerView' => $slides_per_view,
-			'spaceBetween' => $space_between_mobile,
+			'spaceBetween' => $space_between,
 			'speed' => $settings['speed'],
 			'loop' => $settings['loop'] == 'yes' ? true : false,
 			'breakpoints' => $swiper_breakpoints,
