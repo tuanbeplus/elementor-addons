@@ -54,6 +54,7 @@ class Plugin {
 		wp_register_style( 'elementor-addons', plugins_url( '/assets/css/frontend.css', __FILE__ ) , array() ,ELEMENT_ADDON_VER );
 		wp_register_style( 'elementor-addons-custom-frontend', plugins_url( '/assets/css/custom-frontend.css', __FILE__ ) , array() , ELEMENT_ADDON_VER);
 		wp_register_style( 'elementor-addons-content-filter', plugins_url( '/assets/widgets/content-filter.css', __FILE__ ) , array() , ELEMENT_ADDON_VER );
+		wp_register_style( 'submissions-css', plugins_url( '/assets/css/submissions.css', __FILE__ ) , array() , ELEMENT_ADDON_VER );
 	}
 
 
@@ -73,6 +74,7 @@ class Plugin {
 		wp_register_script( 'elementor-addons-custom-frontend', plugins_url( '/assets/js/custom-frontend.js', __FILE__ ), [ 'jquery' ], ELEMENT_ADDON_VER, true );
 		wp_register_script( 'elementor-addons-bloodhound', plugins_url( '/assets/js/typeahead/typeahead.bundle.min.js', __FILE__ ), [ 'jquery' ], ELEMENT_ADDON_VER, true );
 		wp_register_script( 'elementor-addons-masonry', plugins_url( '/assets/js/masonry.pkgd.min.js', __FILE__ ), [ 'jquery' ], ELEMENT_ADDON_VER, true );
+		wp_register_script( 'submissions-js', plugins_url( '/assets/js/submissions.js', __FILE__ ), [ 'jquery' ], ELEMENT_ADDON_VER, true );
 	}
 
 	/**
@@ -154,6 +156,7 @@ class Plugin {
 		require_once( __DIR__ . '/widgets/be-campaign-gallery-section.php' );
 		require_once( __DIR__ . '/widgets/be-campaign-videos-section.php' );
 		require_once( __DIR__ . '/widgets/be-campaign-documents-section.php' );
+		require_once( __DIR__ . '/widgets/submissions.php' );
 		// M.8.3 Card lrg (landing page)
 	}
 
@@ -211,6 +214,7 @@ public function add_category( $elements_manager ) {
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Campaign_Videos_Section());
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Campaign_Documents_Section());
 
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Widgets\Submissions());
 	}
 
 	/**
@@ -241,6 +245,10 @@ public function add_category( $elements_manager ) {
 
 		// Register widget scripts
 		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'widget_scripts' ] );
+
+		// Also register via standard WP hook as fallback
+		add_action( 'wp_enqueue_scripts', [ $this, 'widget_styles' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'widget_scripts' ] );
 
 		// Register widgets
 		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widgets' ] );
