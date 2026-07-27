@@ -273,7 +273,7 @@ final class Elementor_Addons {
 		ob_start();
 		add_filter('posts_where', array($this, 'ica_title_filter'), 10, 2);
 		$the_query = new WP_Query($args);
-		$_GLOBAL['wp_query'] = $the_query;
+		$GLOBALS['wp_query'] = $the_query;
 		remove_filter('posts_where', array($this, 'ica_title_filter'), 10, 2);
 		$totalpost = (($numberposts * ($paged - 1)) + $the_query->post_count);
 
@@ -393,7 +393,7 @@ final class Elementor_Addons {
 		}
 
 		//check pagination
-		if ($_GLOBAL['wp_query']->max_num_pages == $paged) {
+		if ($the_query->max_num_pages == $paged) {
 			$result['pagination'] = false;
 		} else {
 			$result['pagination'] = true;
@@ -408,9 +408,9 @@ final class Elementor_Addons {
 		wp_send_json($result);
 	}
 
-	public function ica_title_filter($where, &$wp_query) {
+	public function ica_title_filter($where, $wp_query) {
 		global $wpdb;
-		if ($_search_key = stripslashes($_POST['key'])) {
+		if (isset($_POST['key']) && ($_search_key = stripslashes($_POST['key']))) {
 			$like_sql = ' OR (LOWER(' . $wpdb->posts . '.post_title) LIKE LOWER(\'%' . esc_sql($wpdb->esc_like($_search_key)) . '%\'))';
 			$like_sql .= ' OR (LOWER(' . $wpdb->posts . '.post_content) LIKE LOWER(\'%' . esc_sql($wpdb->esc_like($_search_key)) . '%\'))';
 			$like_sql .= ' OR (LOWER(' . $wpdb->posts . '.post_excerpt) LIKE LOWER(\'%' . esc_sql($wpdb->esc_like($_search_key)) . '%\'))';
@@ -423,23 +423,25 @@ final class Elementor_Addons {
 
 		if ($search_date = $wp_query->get('search_date')) {
 			$date = explode(',', $search_date);
-			if ($date[0] && !$date[1]) {
-				$date0 = date_create('01-' . $date[0]);
-				$date0 = date_format($date0, "Y-m-d");
-				$where .= " AND post_date >= '" . $date0 . " 00:00:00'";
-			}
+			$start = !empty($date[0]) ? $date[0] : null;
+			$end = !empty($date[1]) ? $date[1] : null;
 
-			if (!$date[0] && $date[1]) {
-				$date1 = date_create('31-' . $date[1]);
-				$date1 = date_format($date1, "Y-m-d");
-				$where .= " AND post_date <= '" . $date1 . " 23:59:59'";
-			}
-			if ($date[0] && $date[1]) {
-				$date0 = date_create('01-' . $date[0]);
-				$date0 = date_format($date0, "Y-m-d");
-				$date1 = date_create('31-' . $date[1]);
-				$date1 = date_format($date1, "Y-m-d");
-				$where .= " AND post_date >= '" . $date0 . " 00:00:00' AND post_date <= '" . $date1 . " 23:59:59'";
+			if ($start && !$end) {
+				$date0 = date_create('01-' . $start);
+				if ($date0) {
+					$where .= " AND post_date >= '" . date_format($date0, "Y-m-d") . " 00:00:00'";
+				}
+			} elseif (!$start && $end) {
+				$date1 = date_create('31-' . $end);
+				if ($date1) {
+					$where .= " AND post_date <= '" . date_format($date1, "Y-m-d") . " 23:59:59'";
+				}
+			} elseif ($start && $end) {
+				$date0 = date_create('01-' . $start);
+				$date1 = date_create('31-' . $end);
+				if ($date0 && $date1) {
+					$where .= " AND post_date >= '" . date_format($date0, "Y-m-d") . " 00:00:00' AND post_date <= '" . date_format($date1, "Y-m-d") . " 23:59:59'";
+				}
 			}
 		}
 		return $where;
